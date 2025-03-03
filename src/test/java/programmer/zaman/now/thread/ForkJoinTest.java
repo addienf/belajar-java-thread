@@ -62,4 +62,16 @@ public class ForkJoinTest {
             }).sum();
         }
     }
+
+    @Test
+    void recursiveTaskTest() throws InterruptedException {
+        var pool = ForkJoinPool.commonPool();
+        List<Integer> integers = IntStream.range(0, 1000).boxed()
+                .collect(Collectors.toList());
+
+        TotalForkJoinTask task = new TotalForkJoinTask(integers);
+        pool.submit(task);
+        Long total = task.join();
+        System.out.println(total);
+    }
 }
